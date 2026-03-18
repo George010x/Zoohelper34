@@ -6,7 +6,11 @@ body {
     color: #333;
 }
 
-.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+.container { 
+    max-width: 1200px; 
+    margin: 0 auto; 
+    padding: 0 20px; 
+}
 
 /* Header */
 .header {
@@ -28,9 +32,16 @@ body {
     gap: 12px;
 }
 
-.logo h1 { font-size: 1.8rem; font-weight: 700; }
+.logo h1 { 
+    font-size: 1.8rem; 
+    font-weight: 700; 
+}
 
-.header-info { display: flex; gap: 20px; font-size: 0.95rem; }
+.header-info { 
+    display: flex; 
+    gap: 20px; 
+    font-size: 0.95rem; 
+}
 
 /* Hero */
 .hero {
@@ -68,6 +79,7 @@ body {
     font-weight: 600;
     font-size: 1rem;
     transition: all 0.3s ease;
+    text-align: center;
 }
 
 .btn-primary {
@@ -91,34 +103,19 @@ body {
     color: white;
 }
 
-.btn-buy {
-    display: block;
+.btn-buy, .btn-checkout {
     background: #FF6B35;
     color: white;
-    text-align: center;
-    margin-top: 1rem;
-    padding: 12px;
+    border: none;
+    padding: 12px 24px;
     border-radius: 8px;
     font-weight: 600;
-}
-
-.btn-buy:hover {
-    background: #E55A2B;
-    transform: translateY(-1px);
-}
-
-.btn-checkout {
-    background: #FF6B35;
-    color: white;
-    width: 100%;
-    border: none;
-    padding: 16px;
-    font-size: 1.2rem;
-    border-radius: 12px;
     cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
 }
 
-.btn-checkout:hover {
+.btn-buy:hover, .btn-checkout:hover {
     background: #E55A2B;
     transform: translateY(-1px);
 }
@@ -241,6 +238,12 @@ body {
     padding: 3rem 0;
 }
 
+.cart-section h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #2c3e50;
+}
+
 .cart-item {
     display: flex;
     align-items: center;
@@ -252,7 +255,9 @@ body {
     background: white;
 }
 
-.cart-item img { border-radius: 8px; }
+.cart-item img { 
+    border-radius: 8px; 
+}
 
 .cart-item-info h4 {
     margin: 0 0 5px 0;
@@ -334,11 +339,6 @@ body {
     color: white;
     padding: 2rem 0;
     text-align: center;
-}
-
-.footer a {
-    color: #4CAF50;
-    text-decoration: none;
 }
 
 /* Responsive */
