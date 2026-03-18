@@ -1,4 +1,4 @@
-// 🛒 ZooHelperStore — полная корзина + ЮKassa + Макс готовность
+// 🛒 ZooHelperStore — полная корзина + анимации + Макс-ready
 class ZooHelperStore {
     constructor() {
         this.cart = JSON.parse(localStorage.getItem('zoohelper_cart')) || [];
@@ -63,29 +63,31 @@ class ZooHelperStore {
         const totalItems = this.cart.reduce((sum, item) => sum + item.quantity, 0);
         const totalSum = this.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
-        cartCount.textContent = totalItems;
-        totalPrice.textContent = `${totalSum.toLocaleString()}₽`;
+        if (cartCount) cartCount.textContent = totalItems;
+        if (totalPrice) totalPrice.textContent = `${totalSum.toLocaleString()}₽`;
 
         if (this.cart.length === 0) {
-            cartItems.innerHTML = '<p style="text-align:center;color:#999;padding:2rem;">Корзина пуста 😿<br>Добавьте товары из каталога!</p>';
-            checkoutBtn.style.display = 'none';
+            if (cartItems) cartItems.innerHTML = '<p style="text-align:center;color:#999;padding:2rem;">Корзина пуста 😿<br>Добавьте товары из каталога!</p>';
+            if (checkoutBtn) checkoutBtn.style.display = 'none';
         } else {
-            cartItems.innerHTML = this.cart.map(item => `
-                <div class="cart-item">
-                    <img src="${item.image}" alt="${item.name}" width="60" height="60">
-                    <div class="cart-item-info">
-                        <h4>${item.name}</h4>
-                        <div class="cart-price">${item.price.toLocaleString()}₽</div>
+            if (cartItems) {
+                cartItems.innerHTML = this.cart.map(item => `
+                    <div class="cart-item">
+                        <img src="${item.image}" alt="${item.name}" width="60" height="60">
+                        <div class="cart-item-info">
+                            <h4>${item.name}</h4>
+                            <div class="cart-price">${item.price.toLocaleString()}₽</div>
+                        </div>
+                        <div class="cart-quantity">
+                            <button onclick="store.updateQuantity(${item.id}, ${item.quantity - 1})">-</button>
+                            <span>${item.quantity}</span>
+                            <button onclick="store.updateQuantity(${item.id}, ${item.quantity + 1})">+</button>
+                        </div>
+                        <button class="remove-btn" onclick="store.removeFromCart(${item.id})">×</button>
                     </div>
-                    <div class="cart-quantity">
-                        <button onclick="store.updateQuantity(${item.id}, ${item.quantity - 1})">-</button>
-                        <span>${item.quantity}</span>
-                        <button onclick="store.updateQuantity(${item.id}, ${item.quantity + 1})">+</button>
-                    </div>
-                    <button class="remove-btn" onclick="store.removeFromCart(${item.id})">×</button>
-                </div>
-            `).join('');
-            checkoutBtn.style.display = 'block';
+                `).join('');
+            }
+            if (checkoutBtn) checkoutBtn.style.display = 'block';
         }
     }
 
@@ -107,19 +109,21 @@ class ZooHelperStore {
         setTimeout(() => notification.classList.add('show'), 100);
         setTimeout(() => {
             notification.classList.remove('show');
-            setTimeout(() => document.body.removeChild(notification), 300);
+            setTimeout(() => {
+                if (document.body.contains(notification)) {
+                    document.body.removeChild(notification);
+                }
+            }, 300);
         }, 3000);
     }
 
     checkout() {
         const total = this.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        this.showNotification(`🔄 Переход на ЮKassa... Итого: ${total}₽`);
+        this.showNotification(`🔄 Оформление заказа... Итого: ${total}₽\nСкоро Макс/ЮKassa`);
         
-        // ЮKassa (российская, работает под санкциями)
         setTimeout(() => {
-            // Макс готов: замени shopId на свой из личного кабинета Макс
-            const maxUrl = `https://www.mkb.ru/pay?shopId=YOUR_SHOP_ID&amount=${total * 100}&orderId=${Date.now()}`;
-            window.open(maxUrl, '_blank');
+            alert(`🛒 Заказ на ${total}₽ готов к оплате!\nСкопируй корзину и оформи в Макс/ЮKassa\nТовары: ${this.cart.map(i=>`${i.name} x${i.quantity}`).join(', ')}`);
+            console.log('Заказ:', this.cart); // для n8n webhook позже
         }, 1000);
     }
 
@@ -135,23 +139,28 @@ class ZooHelperStore {
     }
 
     animateEntrance() {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
             });
-        });
 
-        document.querySelectorAll('.product-card, .feature, .cart-section').forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(30px)';
-            el.style.transition = 'all 0.6s ease';
-            observer.observe(el);
-        });
+            document.querySelectorAll('.product-card, .feature, .cart-section').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'all 0.6s ease';
+                observer.observe(el);
+            });
+        }
     }
 }
 
-// 🚀 Запуск
-const store = new ZooHelperStore();
+// 🚀 Глобальная переменная + запуск
+let store;
+document.addEventListener('DOMContentLoaded', () => {
+    store = new ZooHelperStore();
+});
