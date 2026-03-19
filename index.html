@@ -122,35 +122,122 @@ background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
     </header>
     
     <main class="container">
-        <section class="hero">
-            <h1>Корма • Наполнители • Витамины</h1>
-            <p>Доставка по Волгограду 1-2 дня • 4Partners • Лучшие цены</p>
-        </section>
-        
-        <section class="products">
-            <h2>🔥  Хиты продаж</h2>
-            <div class="products-grid">
-                <div class="product-card" data-id="1" data-name="Силикатный наполнитель 5л" data-price="850">
-                    <img src="https://via.placeholder.com/300x200/87CEEB/FFFFFF?text=Силикатный+5л" alt="Наполнитель">
-                    <h3>Силикатный наполнитель 5л</h3>
-                    <div class="price">850 ₽</div>
-                    <button class="buy-btn">В корзину</button>
-                </div>
-                <div class="product-card" data-id="2" data-name="Brit Premium Cat 3кг" data-price="2490">
-                    <img src="https://via.placeholder.com/300x200/4CAF50/FFFFFF?text=Brit+Premium" alt="Brit">
-                    <h3>Brit Premium Adult Cat 3кг</h3>
-                    <div class="price">2 490 ₽</div>
-                    <button class="buy-btn">В корзину</button>
-                </div>
-                <div class="product-card" data-id="3" data-name="Витамины 8in1 паста" data-price="1200">
-                    <img src="https://via.placeholder.com/300x200/FF6B35/FFFFFF?text=Витамины+8in1" alt="Витамины">
-                    <h3>Витамины 8in1 (шерсть)</h3>
-                    <div class="price">1 200 ₽</div>
-                    <button class="buy-btn">В корзину</button>
-                </div>
+    <!-- ХИТЫ ПРОДАЖ (компактно, 4 товара) -->
+    <section class="products">
+        <h2>🔥  Топ продаж</h2>
+        <div class="products-grid">
+            <div class="product-card" data-id="1" data-name="Силикатный наполнитель 5л" data-price="850">
+                <img src="https://via.placeholder.com/280x180/87CEEB/FFFFFF?text=Силикатный" alt="Наполнитель">
+                <h3>Силикатный наполнитель 5л</h3>
+                <div class="price">850 ₽</div>
+                <button class="buy-btn">В корзину</button>
             </div>
-        </section>
-    </main>
+            <div class="product-card" data-id="2" data-name="Brit Premium Cat 3кг" data-price="2490">
+                <img src="https://via.placeholder.com/280x180/4CAF50/FFFFFF?text=Brit+Premium" alt="Brit">
+                <h3>Brit Premium Adult Cat 3кг</h3>
+                <div class="price">2 490 ₽</div>
+                <button class="buy-btn">В корзину</button>
+            </div>
+            <div class="product-card" data-id="3" data-name="Витамины 8in1 паста" data-price="1200">
+                <img src="https://via.placeholder.com/280x180/FF6B35/FFFFFF?text=Витамины+8in1" alt="Витамины">
+                <h3>Витамины 8in1 (шерсть)</h3>
+                <div class="price">1 200 ₽</div>
+                <button class="buy-btn">В корзину</button>
+            </div>
+            <div class="product-card" data-id="4" data-name="Наполнитель кукурузный 7л" data-price="1290">
+                <img src="https://via.placeholder.com/280x180/8BC34A/FFFFFF?text=Кукурузный" alt="Кукурузный">
+                <h3>Кукурузный наполнитель 7л</h3>
+                <div class="price">1 290 ₽</div>
+                <button class="buy-btn">В корзину</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 📂  КАТАЛОГ ПО ГРУППАМ -->
+    <section class="catalog">
+        <h2>🛒  Полный каталог</h2>
+        
+        <!-- Кнопки категорий -->
+        <div class="category-tabs">
+            <button class="tab-btn active" data-category="all">Все</button>
+            <button class="tab-btn" data-category="filler">Наполнители</button>
+            <button class="tab-btn" data-category="food">Корма</button>
+            <button class="tab-btn" data-category="vitamins">Витамины</button>
+            <button class="tab-btn" data-category="toys">Игрушки</button>
+        </div>
+
+        <!-- Товары по категориям (12 товаров) -->
+        <div class="catalog-grid" id="catalog-grid">
+            <!-- Наполнители -->
+            <div class="product-card small" data-category="filler" data-id="f1" data-name="Силикат белый 5л" data-price="850">
+                <img src="https://via.placeholder.com/250x150/87CEEB/FFFFFF?text=Силикат" alt="Силикат">
+                <h4>Силикат белый 5л</h4>
+                <div class="price-small">850 ₽</div>
+                <button class="buy-btn small">Купить</button>
+            </div>
+            <div class="product-card small" data-category="filler" data-id="f2" data-name="Бентонит голубой 6л" data-price="950">
+                <img src="https://via.placeholder.com/250x150/2196F3/FFFFFF?text=Бентонит" alt="Бентонит">
+                <h4>Бентонит голубой 6л</h4>
+                <div class="price-small">950 ₽</div>
+                <button class="buy-btn small">Купить</button>
+            </div>
+            <div class="product-card small" data-category="filler" data-id="f3" data-name="Кукурузный 7л" data-price="1290">
+                <img src="https://via.placeholder.com/250x150/8BC34A/FFFFFF?text=Кукурузный" alt="Кукуруза">
+                <h4>Кукурузный 7л</h4>
+                <div class="price-small">1 290 ₽</div>
+                <button class="buy-btn small">Купить</button>
+            </div>
+
+            <!-- Корма -->
+            <div class="product-card small" data-category="food" data-id="c1" data-name="Brit Premium Cat 3кг" data-price="2490">
+                <img src="https://via.placeholder.com/250x150/4CAF50/FFFFFF?text=Brit+Cat" alt="Brit">
+<h4>Brit Premium Cat 3кг</h4>
+                <div class="price-small">2 490 ₽</div>
+                <button class="buy-btn small">Купить</button>
+            </div>
+            <div class="product-card small" data-category="food" data-id="c2" data-name="Royal Canin Urinary 2кг" data-price="1890">
+                <img src="https://via.placeholder.com/250x150/FF5722/FFFFFF?text=Royal+Canin" alt="Royal Canin">
+                <h4>Royal Urinary 2кг</h4>
+                <div class="price-small">1 890 ₽</div>
+                <button class="buy-btn small">Купить</button>
+            </div>
+            <div class="product-card small" data-category="food" data-id="c3" data-name="ProPlan Sensitive 1.5кг" data-price="1390">
+                <img src="https://via.placeholder.com/250x150/9C27B0/FFFFFF?text=ProPlan" alt="ProPlan">
+                <h4>ProPlan Sensitive 1.5кг</h4>
+                <div class="price-small">1 390 ₽</div>
+                <button class="buy-btn small">Купить</button>
+            </div>
+
+            <!-- Витамины -->
+            <div class="product-card small" data-category="vitamins" data-id="v1" data-name="8in1 паста шерсть" data-price="1200">
+                <img src="https://via.placeholder.com/250x150/FF6B35/FFFFFF?text=8in1+паста" alt="8in1">
+                <h4>8in1 паста (шерсть)</h4>
+                <div class="price-small">1 200 ₽</div>
+                <button class="buy-btn small">Купить</button>
+            </div>
+            <div class="product-card small" data-category="vitamins" data-id="v2" data-name="Кальций+Глюкозамин" data-price="890">
+                <img src="https://via.placeholder.com/250x150/FFC107/FFFFFF?text=Кальций" alt="Кальций">
+                <h4>Кальций+Глюкозамин</h4>
+                <div class="price-small">890 ₽</div>
+                <button class="buy-btn small">Купить</button>
+            </div>
+
+            <!-- Игрушки -->
+            <div class="product-card small" data-category="toys" data-id="t1" data-name="Мышь с катнипом" data-price="350">
+                <img src="https://via.placeholder.com/250x150/E91E63/FFFFFF?text=Мышь" alt="Мышь">
+                <h4>Мышь с катнипом</h4>
+                <div class="price-small">350 ₽</div>
+                <button class="buy-btn small">Купить</button>
+            </div>
+            <div class="product-card small" data-category="toys" data-id="t2" data-name="Лазерная указка" data-price="450">
+                <img src="https://via.placeholder.com/250x150/F44336/FFFFFF?text=Лазер" alt="Лазер">
+                <h4>Лазерная указка</h4>
+                <div class="price-small">450 ₽</div>
+                <button class="buy-btn small">Купить</button>
+            </div>
+        </div>
+    </section>
+</main>
 
     <!-- Корзина и тост остаются как в прошлом блоке -->
     <div id="cart-modal" class="modal">
