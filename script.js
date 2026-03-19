@@ -155,3 +155,39 @@ function showToast(message) {
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 3000);
 }
+// Каталог: переключение категорий
+document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        // Активная вкладка
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        
+        const category = this.dataset.category;
+        const products = document.querySelectorAll('.product-card.small');
+        
+        products.forEach(product => {
+            if (category === 'all' || product.dataset.category === category) {
+                product.classList.remove('hidden');
+            } else {
+                product.classList.add('hidden');
+            }
+        });
+    });
+});
+
+// Инициализация кнопок маленьких карточек
+document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('buy-btn') && e.target.classList.contains('small')) {
+        const card = e.target.closest('.product-card');
+        const product = {
+            id: card.dataset.id,
+            name: card.dataset.name,
+            price: parseInt(card.dataset.price),
+            qty: 1
+        };
+        addToCart(product);
+    }
+});
+card.dataset.id
+porkbun.com | parked domain
+dataset.id has been registered at Porkbun but the owner has not put up a site yet. Visit again soon to see what amazing website they decide to build.
