@@ -319,3 +319,54 @@ height: 240px;
 @media (max-width: 480px) {
     .hero h1 { font-size: 2rem; }
     .product-card { padding: 1.8rem 1.5rem; }
+   .catalog { margin: 4rem 0; }
+.catalog h2 { 
+    text-align: center; color: #2E7D32; font-size: 2.8rem; 
+    margin-bottom: 2rem; position: relative;
+}
+.catalog h2::after {
+    content: ''; position: absolute; bottom: -10px; left: 50%; 
+    transform: translateX(-50%); width: 100px; height: 4px; 
+    background: linear-gradient(90deg, #4CAF50, #FF6B35); border-radius: 2px;
+}
+
+.category-tabs {
+    display: flex; justify-content: center; gap: 1rem; 
+    margin-bottom: 3rem; flex-wrap: wrap;
+}
+.tab-btn {
+    padding: 12px 24px; background: rgba(255,255,255,0.9); 
+    border: 2px solid #E0E0E0; border-radius: 25px; 
+    font-weight: 600; cursor: pointer; transition: all 0.3s;
+}
+.tab-btn.active, .tab-btn:hover {
+    background: linear-gradient(45deg, #4CAF50, #66BB6A); 
+    color: white; border-color: #4CAF50; transform: translateY(-2px);
+}
+
+.catalog-grid {
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); 
+    gap: 1.5rem;
+}
+
+.product-card.small {
+    padding: 1.5rem; height: 380px; 
+    grid-template-rows: auto 1fr auto auto;
+}
+.product-card.small img {
+    height: 150px !important; border-radius: 15px;
+}
+.product-card.small h4 {
+    font-size: 1.1rem; margin: 1rem 0 0.8rem; color: #1B5E20;
+}
+.price-small {
+    font-size: 1.6rem; font-weight: 700; color: #4CAF50; 
+    margin-bottom: 1rem;
+}
+.buy-btn.small {
+    padding: 12px; font-size: 1rem; border-radius: 12px;
+}
+
+/* Скрытие по категориям */
+.product-card.hidden { display: none; }
