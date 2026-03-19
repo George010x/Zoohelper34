@@ -3,131 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZooHelper — товары для питомцев Волгоград</title>
+    <title>ZooHelper Волгоград — Корма и Наполнители</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Шапка -->
     <header class="header">
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">
-                    <img src="https://via.placeholder.com/50x50/4CAF50/FFFFFF?text=🐾" alt="ZooHelper" width="50">
-                    <h1>ZooHelper</h1>
-                </div>
-                <div class="header-info">
-                    <span class="delivery">🚚 Волгоград 2 дня</span>
-                    <span class="phone">📱 8-800-554-35-35</span>
-                </div>
+        <nav class="nav">
+            <div class="logo">🐾  ZooHelper</div>
+            <div class="nav-links">
+                <a href="#services">Услуги</a>
+                <a href="#kabinet">Кабинет</a>
+                <a href="#" id="cart-btn">🛒  <span id="cart-count">0</span></a>
             </div>
-        </div>
+        </nav>
     </header>
 
-    <main>
+    <!-- Главный блок -->
+    <main class="container">
         <section class="hero">
-            <div class="container">
-                <div class="hero-content">
-                    <h2>Всё для вашей пушистой семьи</h2>
-                    <p>Наполнители, корма, витамины с доставкой по Волгограду</p>
-                    <div class="hero-buttons">
-                        <a href="#catalog" class="btn btn-primary">Каталог товаров</a>
-                        <a href="#cartSection" class="btn btn-secondary">🛒 Корзина</a>
-                    </div>
-                </div>
-            </div>
+            <h1>Корма • Наполнители • Витамины</h1>
+            <p>Волгоград • Доставка 1-2 дня • 4Partners</p>
         </section>
 
-        <section class="catalog" id="catalog">
-            <div class="container">
-                <h2>Хиты продаж</h2>
-                <div class="products-grid">
-                    <div class="product-card">
-                        <div class="product-image">
-                            <img src="https://via.placeholder.com/350x250/87CEEB/FFFFFF?text=Силикатный+наполнитель+5кг" alt="Наполнитель">
-                            <div class="product-badge">Хит</div>
-                        </div>
-                        <div class="product-info">
-                            <h3>Силикатный наполнитель 5кг</h3>
-                            <div class="price">
-                                <span class="old-price">990₽</span>
-                                <span class="new-price">850₽</span>
-                            </div>
-                            <a href="#" class="btn btn-buy" data-product-id="1">В корзину</a>
-                        </div>
-                    </div>
-
-                    <div class="product-card">
-                        <div class="product-image">
-                            <img src="https://via.placeholder.com/350x250/FFB6C1/FFFFFF?text=BabyEco+шампунь+500мл" alt="Шампунь">
-                        </div>
-                        <div class="product-info">
-                            <h3>ЭКО шампунь BabyEco 500мл</h3>
-                            <div class="price">
-                                <span class="old-price">790₽</span>
-                                <span class="new-price">649₽</span>
-                            </div>
-                            <a href="#" class="btn btn-buy" data-product-id="2">В корзину</a>
-                        </div>
-                    </div>
-
-                    <div class="product-card">
-                        <div class="product-image">
-                            <img src="https://via.placeholder.com/350x250/90EE90/FFFFFF?text=Премиум+корм+1.5кг" alt="Корм">
-                        </div>
-                        <div class="product-info">
-                            <h3>Премиум корм курица 1.5кг</h3>
-                            <div class="price">
-                                <span class="old-price">1 490₽</span>
-                                <span class="new-price">1 200₽</span>
-                            </div>
-                            <a href="#" class="btn btn-buy" data-product-id="3">В корзину</a>
-                        </div>
-                    </div>
+        <!-- Товары -->
+        <section class="products" id="products">
+            <h2>🔥  Хиты продаж</h2>
+            <div class="products-grid">
+                <div class="product-card" data-id="1" data-name="Силикатный наполнитель 5л" data-price="850">
+                    <img src="https://via.placeholder.com/300x200/87CEEB/FFFFFF?text=Силикатный+наполнитель" alt="Наполнитель">
+                    <h3>Силикатный наполнитель 5л</h3>
+                    <div class="price">850 ₽</div>
+                    <button class="buy-btn">В корзину</button>
                 </div>
-            </div>
-        </section>
-
-        <section class="features">
-            <div class="container">
-                <div class="features-grid">
-                    <div class="feature">
-                        <div class="feature-icon">🚚</div>
-                        <h3>Доставка 2 дня</h3>
-                        <p>По Волгограду и области</p>
-                    </div>
-                    <div class="feature">
-                        <div class="feature-icon">✅</div>
-                        <h3>Оригинал</h3>
-                        <p>Гарантия качества</p>
-                    </div>
-                    <div class="feature">
-                        <div class="feature-icon">🤖</div>
-                        <h3>ИИ помощник</h3>
-                        <p>Подбор под вашего питомца</p>
-                    </div>
+                <div class="product-card" data-id="2" data-name="Brit Premium Cat 3кг" data-price="2490">
+                    <img src="https://via.placeholder.com/300x200/4CAF50/FFFFFF?text=Brit+Premium+Cat" alt="Brit">
+                    <h3>Brit Premium Adult Cat 3кг</h3>
+                    <div class="price">2 490 ₽</div>
+                    <button class="buy-btn">В корзину</button>
                 </div>
-            </div>
-        </section>
-
-        <section class="cart-section" id="cartSection">
-            <div class="container">
-                <h2>🛒 Корзина (<span id="cartCount">0</span>)</h2>
-                <div id="cartItems"></div>
-                <div class="cart-total">
-                    <div class="total-price">Итого: <span id="totalPrice">0₽</span></div>
-                    <button onclick="store.checkout()" class="btn btn-checkout" id="checkoutBtn" style="display:none;">
-                        Оформить заказ (ЮKassa/Макс)
-                    </button>
+                <div class="product-card" data-id="3" data-name="Витамины 8in1 паста" data-price="1200">
+                    <img src="https://via.placeholder.com/300x200/FF6B35/FFFFFF?text=Витамины+8in1" alt="Витамины">
+                    <h3>Витамины 8in1 (шерсть)</h3>
+                    <div class="price">1 200 ₽</div>
+                    <button class="buy-btn">В корзину</button>
                 </div>
             </div>
         </section>
     </main>
 
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2026 ZooHelper Волгоград. Все права защищены.</p>
+    <!-- Корзина (модальное окно) -->
+    <div id="cart-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Корзина (<span id="modal-count">0</span>)</h2>
+            <div id="cart-items"></div>
+            <div class="total">Итого: <span id="total-price">0</span> ₽</div>
+            <button id="checkout" class="checkout-btn">Оформить заказ (ЮKassa)</button>
         </div>
-    </footer>
+    </div>
+
+    <!-- Уведомление -->
+    <div id="toast" class="toast"></div>
 
     <script src="script.js"></script>
 </body>
