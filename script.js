@@ -1,166 +1,130 @@
-// 🛒 ZooHelperStore — полная корзина + анимации + Макс-ready
-class ZooHelperStore {
-    constructor() {
-        this.cart = JSON.parse(localStorage.getItem('zoohelper_cart')) || [];
-        this.products = [
-            { id: 1, name: 'Силикатный наполнитель 5кг', price: 850, oldPrice: 990, image: 'https://via.placeholder.com/350x250/87CEEB/FFFFFF?text=Силикатный+наполнитель+5кг' },
-            { id: 2, name: 'ЭКО шампунь BabyEco 500мл', price: 649, oldPrice: 790, image: 'https://via.placeholder.com/350x250/FFB6C1/FFFFFF?text=BabyEco+шампунь+500мл' },
-            { id: 3, name: 'Премиум корм курица 1.5кг', price: 1200, oldPrice: 1490, image: 'https://via.placeholder.com/350x250/90EE90/FFFFFF?text=Премиум+корм+1.5кг' }
-        ];
-        this.init();
-    }
+// Глобальные переменные
+let cart = JSON.parse(localStorage.getItem('zooCart')) || [];
 
-    init() {
-        this.updateCartUI();
-        this.addEventListeners();
-        this.animateEntrance();
-    }
+// Инициализация
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🚀  ZooHelper JS готов!');
+    
+    initCart();
+    initButtons();
+});
 
-    addToCart(productId) {
-        const product = this.products.find(p => p.id === productId);
-        const existing = this.cart.find(item => item.id === productId);
-        
-        if (existing) {
-            existing.quantity += 1;
-        } else {
-            this.cart.push({ ...product, quantity: 1 });
-        }
-        
-        this.saveCart();
-        this.updateCartUI();
-        this.showNotification(`${product.name} добавлен! 🛒`);
-    }
+// Инициализация корзины
+function initCart() {
+    updateCartCount();
+    document.getElementById('cart-btn').addEventListener('click', toggleCart);
+    document.querySelector('.close').addEventListener('click', toggleCart);
+    document.getElementById('checkout').addEventListener('click', checkout);
+    
+    // Закрытие модалки по клику вне её
+    document.getElementById('cart-modal').addEventListener('click', function(e) {
+        if (e.target === this) toggleCart();
+    });
+}
 
-    removeFromCart(productId) {
-        this.cart = this.cart.filter(item => item.id !== productId);
-        this.saveCart();
-        this.updateCartUI();
-    }
-
-    updateQuantity(productId, quantity) {
-        const item = this.cart.find(item => item.id === productId);
-        if (item) {
-            item.quantity = quantity;
-            if (item.quantity <= 0) {
-                this.removeFromCart(productId);
-            } else {
-                this.saveCart();
-                this.updateCartUI();
-            }
-        }
-    }
-
-    saveCart() {
-        localStorage.setItem('zoohelper_cart', JSON.stringify(this.cart));
-    }
-
-    updateCartUI() {
-        const cartCount = document.getElementById('cartCount');
-        const cartItems = document.getElementById('cartItems');
-        const totalPrice = document.getElementById('totalPrice');
-        const checkoutBtn = document.getElementById('checkoutBtn');
-
-        const totalItems = this.cart.reduce((sum, item) => sum + item.quantity, 0);
-        const totalSum = this.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-
-        if (cartCount) cartCount.textContent = totalItems;
-        if (totalPrice) totalPrice.textContent = `${totalSum.toLocaleString()}₽`;
-
-        if (this.cart.length === 0) {
-            if (cartItems) cartItems.innerHTML = '<p style="text-align:center;color:#999;padding:2rem;">Корзина пуста 😿<br>Добавьте товары из каталога!</p>';
-            if (checkoutBtn) checkoutBtn.style.display = 'none';
-        } else {
-            if (cartItems) {
-                cartItems.innerHTML = this.cart.map(item => `
-                    <div class="cart-item">
-                        <img src="${item.image}" alt="${item.name}" width="60" height="60">
-                        <div class="cart-item-info">
-                            <h4>${item.name}</h4>
-                            <div class="cart-price">${item.price.toLocaleString()}₽</div>
-                        </div>
-                        <div class="cart-quantity">
-                            <button onclick="store.updateQuantity(${item.id}, ${item.quantity - 1})">-</button>
-                            <span>${item.quantity}</span>
-                            <button onclick="store.updateQuantity(${item.id}, ${item.quantity + 1})">+</button>
-                        </div>
-                        <button class="remove-btn" onclick="store.removeFromCart(${item.id})">×</button>
-                    </div>
-                `).join('');
-            }
-            if (checkoutBtn) checkoutBtn.style.display = 'block';
-        }
-    }
-
-    animateButton(button) {
-        button.style.transform = 'scale(0.95)';
-        button.innerHTML = '✓';
-        setTimeout(() => {
-            button.style.transform = 'scale(1)';
-            button.innerHTML = 'В корзину';
-        }, 200);
-    }
-
-    showNotification(message) {
-        const notification = document.createElement('div');
-        notification.className = 'notification';
-        notification.textContent = message;
-        document.body.appendChild(notification);
-        
-        setTimeout(() => notification.classList.add('show'), 100);
-        setTimeout(() => {
-            notification.classList.remove('show');
-            setTimeout(() => {
-                if (document.body.contains(notification)) {
-                    document.body.removeChild(notification);
-                }
-            }, 300);
-        }, 3000);
-    }
-
-    checkout() {
-        const total = this.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        this.showNotification(`🔄 Оформление заказа... Итого: ${total}₽\nСкоро Макс/ЮKassa`);
-        
-        setTimeout(() => {
-            alert(`🛒 Заказ на ${total}₽ готов к оплате!\nСкопируй корзину и оформи в Макс/ЮKassa\nТовары: ${this.cart.map(i=>`${i.name} x${i.quantity}`).join(', ')}`);
-            console.log('Заказ:', this.cart); // для n8n webhook позже
-        }, 1000);
-    }
-
-    addEventListeners() {
-        document.querySelectorAll('.btn-buy').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                const productId = parseInt(btn.dataset.productId);
-                this.addToCart(productId);
-                this.animateButton(btn);
-            });
+// Кнопки "В корзину"
+function initButtons() {
+    document.querySelectorAll('.buy-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const card = this.closest('.product-card');
+            const product = {
+                id: card.dataset.id,
+                name: card.dataset.name,
+                price: parseInt(card.dataset.price),
+                qty: 1
+            };
+            
+            addToCart(product);
         });
+    });
+}
+
+// Добавить в корзину
+function addToCart(product) {
+    const existing = cart.find(item => item.id === product.id);
+    if (existing) {
+        existing.qty++;
+    } else {
+        cart.push(product);
     }
+    
+    localStorage.setItem('zooCart', JSON.stringify(cart));
+    updateCartCount();
+    showToast(`${product.name} добавлен! ✅`);
+}
 
-    animateEntrance() {
-        if ('IntersectionObserver' in window) {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }
-                });
-            });
+// Обновить счётчик корзины
+function updateCartCount() {
+    const count = cart.reduce((sum, item) => sum + item.qty, 0);
+    document.getElementById('cart-count').textContent = count;
+    document.getElementById('modal-count').textContent = count;
+    renderCart();
+}
 
-            document.querySelectorAll('.product-card, .feature, .cart-section').forEach(el => {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(30px)';
-                el.style.transition = 'all 0.6s ease';
-                observer.observe(el);
-            });
-        }
+// Показать корзину
+function toggleCart() {
+    const modal = document.getElementById('cart-modal');
+    modal.classList.toggle('active');
+    if (modal.classList.contains('active')) {
+        renderCart();
     }
 }
 
-// 🚀 Глобальная переменная + запуск
-let store;
-document.addEventListener('DOMContentLoaded', () => {
-    store = new ZooHelperStore();
-});
+// Отрисовка товаров в корзине
+function renderCart() {
+    const container = document.getElementById('cart-items');
+    const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+    
+    if (cart.length === 0) {
+        container.innerHTML = '<p style="text-align: center; color: #999;">Корзина пуста 😿 </p>';
+    } else {
+        container.innerHTML = cart.map(item => `
+            <div style="display: flex; justify-content: space-between; padding: 1rem 0; border-bottom: 1px solid #eee;">
+                <div>
+                    <div style="font-weight: 600;">${item.name}</div>
+                    <div style="color: #999;">${item.price} ₽ × ${item.qty}</div>
+                </div>
+                <div style="font-weight: 700; color: #4CAF50;">
+                    ${item.price * item.qty} ₽
+                </div>
+            </div>
+        `).join('');
+    }
+    
+    document.getElementById('total-price').textContent = total;
+}
+
+// Оформление заказа
+function checkout() {
+    if (cart.length === 0) {
+        showToast('Корзина пуста!');
+        return;
+    }
+    
+    const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+    const yookassaUrl = `https://yookassa.ru/?amount=${total}`;
+    
+    // Открываем ЮKassa
+    window.open(yookassaUrl, '_blank');
+    
+    // Симуляция сохранения заказа
+    localStorage.setItem('zooLastOrder', JSON.stringify({
+        date: new Date().toLocaleString('ru'),
+        total: total,
+        items: cart.map(item => item.name)
+    }));
+    
+    showToast(`Заказ на ${total} ₽ оформлен! 💳`);
+    cart = [];
+    localStorage.setItem('zooCart', '[]');
+    updateCartCount();
+    toggleCart();
+}
+
+// Уведомление
+function showToast(message) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
+}
