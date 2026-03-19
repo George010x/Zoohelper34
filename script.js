@@ -16,7 +16,6 @@ function initCart() {
     document.querySelector('.close').addEventListener('click', toggleCart);
     document.getElementById('checkout').addEventListener('click', checkout);
     
-    // Закрытие модалки по клику вне её
     document.getElementById('cart-modal').addEventListener('click', function(e) {
         if (e.target === this) toggleCart();
     });
@@ -33,13 +32,12 @@ function initButtons() {
                 price: parseInt(card.dataset.price),
                 qty: 1
             };
-            
             addToCart(product);
         });
     });
 }
 
-// Добавить в корзину
+// ДОБАВИТЬ В КОРЗИНУ
 function addToCart(product) {
     const existing = cart.find(item => item.id === product.id);
     if (existing) {
@@ -47,10 +45,31 @@ function addToCart(product) {
     } else {
         cart.push(product);
     }
-    
     localStorage.setItem('zooCart', JSON.stringify(cart));
     updateCartCount();
     showToast(`${product.name} добавлен! ✅`);
+}
+
+// УДАЛИТЬ ИЗ КОРЗИНЫ (НОВОЕ!)
+function removeFromCart(productId) {
+    cart = cart.filter(item => item.id !== productId);
+    localStorage.setItem('zooCart', JSON.stringify(cart));
+    updateCartCount();
+    showToast('Товар удалён! 🗑️ ');
+}
+
+// ИЗМЕНИТЬ КОЛИЧЕСТВО (НОВОЕ!)
+function changeQuantity(productId, delta) {
+    const item = cart.find(item => item.id === productId);
+    if (item) {
+        item.qty += delta;
+        if (item.qty <= 0) {
+            removeFromCart(productId);
+        } else {
+            localStorage.setItem('zooCart', JSON.stringify(cart));
+            updateCartCount();
+        }
+    }
 }
 
 // Обновить счётчик корзины
@@ -70,28 +89,40 @@ function toggleCart() {
     }
 }
 
-// Отрисовка товаров в корзине
+// ✅ ОТРИСОВКА КОРЗИНЫ С КНОПКАМИ УДАЛЕНИЯ (+/-)
 function renderCart() {
     const container = document.getElementById('cart-items');
     const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
     
     if (cart.length === 0) {
-        container.innerHTML = '<p style="text-align: center; color: #999;">Корзина пуста 😿 </p>';
+        container.innerHTML = '<p style="text-align: center; color: #999; font-size: 1.2rem; padding: 2rem;">Корзина пуста 😿 <br><a href="#products" style="color: #4CAF50;">Выберите товары</a></p>';
     } else {
         container.innerHTML = cart.map(item => `
-            <div style="display: flex; justify-content: space-between; padding: 1rem 0; border-bottom: 1px solid #eee;">
-                <div>
-                    <div style="font-weight: 600;">${item.name}</div>
-                    <div style="color: #999;">${item.price} ₽ × ${item.qty}</div>
+            <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 15px; margin-bottom: 1rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <div style="font-weight: 700; font-size: 1.1rem; color: #2E7D32;">${item.name}</div>
+                    <div style="font-weight: 700; color: #4CAF50; font-size: 1.3rem;">
+                        ${item.price * item.qty} ₽
+                    </div>
                 </div>
-                <div style="font-weight: 700; color: #4CAF50;">
-                    ${item.price * item.qty} ₽
+                <div style="display: flex; align-items: center; gap: 1rem; justify-content: space-between;">
+                    <div style="display: flex; align-items: center; gap: 1rem; background: white; padding: 0.8rem 1.5rem; border-radius: 25px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+<button onclick="changeQuantity('${item.id}', -1)" style="width: 40px; height: 40px; border: none; background: #FF6B35; color: white; border-radius: 50%; font-size: 1.2rem; cursor: pointer; font-weight: bold;">−</button>
+                        <span style="font-weight: 700; font-size: 1.3rem; min-width: 30px; text-align: center;">${item.qty}</span>
+                        <button onclick="changeQuantity('${item.id}', 1)" style="width: 40px; height: 40px; border: none; background: #4CAF50; color: white; border-radius: 50%; font-size: 1.2rem; cursor: pointer; font-weight: bold;">+</button>
+                    </div>
+                    <button onclick="removeFromCart('${item.id}')" style="padding: 10px 20px; background: linear-gradient(45deg, #f44336, #d32f2f); color: white; border: none; border-radius: 25px; font-weight: 600; cursor: pointer; box-shadow: 0 5px 15px rgba(244,67,54,0.4);">
+                        🗑️  Удалить
+                    </button>
+                </div>
+                <div style="margin-top: 0.8rem; color: #666; font-size: 0.95rem;">
+                    ${item.price} ₽ × ${item.qty}
                 </div>
             </div>
         `).join('');
     }
     
-    document.getElementById('total-price').textContent = total;
+    document.getElementById('total-price').textContent = total.toLocaleString();
 }
 
 // Оформление заказа
@@ -102,19 +133,15 @@ function checkout() {
     }
     
     const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-    const yookassaUrl = `https://yookassa.ru/?amount=${total}`;
+    window.open(`https://yookassa.ru/?amount=${total}`, '_blank');
     
-    // Открываем ЮKassa
-    window.open(yookassaUrl, '_blank');
-    
-    // Симуляция сохранения заказа
     localStorage.setItem('zooLastOrder', JSON.stringify({
         date: new Date().toLocaleString('ru'),
         total: total,
         items: cart.map(item => item.name)
     }));
     
-    showToast(`Заказ на ${total} ₽ оформлен! 💳`);
+    showToast(`Заказ на ${total.toLocaleString()} ₽ оформлен! 💳`);
     cart = [];
     localStorage.setItem('zooCart', '[]');
     updateCartCount();
