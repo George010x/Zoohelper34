@@ -3,255 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZooHelper Волгоград — Корма и Наполнители</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background: linear-gradient(135deg, #87CEEB 0%, #98D8C8 50%, #4CAF50 100%);
-            min-height: 100vh; color: #333;
-        }
-        .header { 
-            background: rgba(255,255,255,0.97); 
-            backdrop-filter: blur(20px); 
-            padding: 1rem 2rem; 
-            position: sticky; top: 0; z-index: 100;
-        }
-        .nav { 
-            max-width: 1200px; margin: 0 auto; 
-            display: flex; justify-content: space-between; align-items: center; 
-        }
-        .logo { font-size: 1.8rem; font-weight: 700; color: #2E7D32; }
-        .nav-links a { 
-            margin-left: 2rem; text-decoration: none; color: #333; 
-            font-weight: 500; transition: color 0.3s; 
-        }
-        .nav-links a:hover { color: #4CAF50; }
-        #cart-btn { 
-            background: linear-gradient(45deg, #FF6B35, #F57C00); 
-            color: white; padding: 12px 20px; border-radius: 30px; 
-            text-decoration: none; font-weight: 600; box-shadow: 0 5px 15px rgba(255,107,53,0.4);
-        }
-        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
-        .hero { 
-            text-align: center; color: white; margin: 3rem 0; 
-            text-shadow: 2px 2px 6px rgba(0,0,0,0.5);
-        }
-        .hero h1 { font-size: 3rem; margin-bottom: 1rem; }
-        .hero p { font-size: 1.3rem; opacity: 0.95; }
-        .products { background: rgba(255,255,255,0.95); padding: 3rem; border-radius: 30px; margin: 2rem 0; }
-        .products h2 { text-align: center; color: #2E7D32; font-size: 2.5rem; margin-bottom: 2rem; }
-        .products-grid { 
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 2rem; 
-        }
-        .product-card { 
-            background: white; border-radius: 25px; padding: 2rem; 
-            box-shadow: 0 25px 50px rgba(0,0,0,0.15); 
-            transition: all 0.4s; overflow: hidden; position: relative;
-        }
-        .product-card::before { 
-            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px; 
-            background: linear-gradient(90deg, #4CAF50, #FF6B35); 
-        }
-        .product-card:hover { 
-            transform: translateY(-15px) scale(1.02); 
-            box-shadow: 0 40px 80px rgba(0,0,0,0.25);
-        }
-        .product-card img { 
-            width: 100%; height: 220px; object-fit: cover; border-radius: 20px; margin-bottom: 1.5rem; 
-        }
-        .product-card h3 { color: #1B5E20; margin-bottom: 1rem; font-size: 1.4rem; }
-        .price { 
-            font-size: 2.2rem; font-weight: 800; color: #4CAF50; 
-            text-shadow: 1px 1px 2px rgba(76,175,80,0.3); margin-bottom: 1.5rem;
-        }
-        .buy-btn { 
-            width: 100%; padding: 18px; background: linear-gradient(45deg, #4CAF50, #66BB6A); 
-            color: white; border: none; border-radius: 15px; font-size: 1.2rem; font-weight: 700; 
-            cursor: pointer; transition: all 0.3s; box-shadow: 0 10px 30px rgba(76,175,80,0.4);
-        }
-        .buy-btn:hover { 
-            transform: scale(1.05); background: linear-gradient(45deg, #45a049, #4CAF50); 
-            box-shadow: 0 15px 40px rgba(76,175,80,0.6);
-        }
-        .modal { 
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(0,0,0,0.8); z-index: 2000; backdrop-filter: blur(10px);
-            align-items: center; justify-content: center;
-        }
-        .modal.active { display: flex; }
-        .modal-content {
-background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%); 
-            max-width: 550px; width: 90%; max-height: 85vh; border-radius: 30px; 
-            padding: 2.5rem; position: relative; animation: modalSlide 0.4s ease;
-            box-shadow: 0 50px 100px rgba(0,0,0,0.4);
-        }
-        @keyframes modalSlide { from { transform: scale(0.7) translateY(50px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
-        .close { position: absolute; top: 1.5rem; right: 2rem; font-size: 2.5rem; cursor: pointer; color: #999; font-weight: 300; }
-        .total { font-size: 2rem; font-weight: 800; color: #4CAF50; margin: 2rem 0; text-align: center; }
-        .checkout-btn { 
-            width: 100%; padding: 20px; background: linear-gradient(45deg, #2196F3, #21CBF3); 
-            color: white; border: none; border-radius: 15px; font-size: 1.3rem; font-weight: 700; cursor: pointer;
-            box-shadow: 0 15px 40px rgba(33,150,243,0.4);
-        }
-        .toast { 
-            position: fixed; top: 30px; right: -450px; background: linear-gradient(45deg, #4CAF50, #66BB6A); 
-            color: white; padding: 1.5rem 2.5rem; border-radius: 20px; font-weight: 600; font-size: 1.1rem;
-            box-shadow: 0 20px 50px rgba(76,175,80,0.5); z-index: 3000; transition: right 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        }
-        .toast.show { right: 30px; }
-        @media (max-width: 768px) { 
-            .hero h1 { font-size: 2.2rem; } 
-            .products-grid { grid-template-columns: 1fr; } 
-            .nav-links { flex-direction: column; gap: 1rem; margin-top: 1rem; }
-        }
-    </style>
+    <title>Zoohelper34 - Зоотовары Волгоград | E-commerce MVP</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <!-- [ВСЁ ОСТАЛЬНОЕ ОСТАЁТСЯ ТАКИМ ЖЕ — вставь содержимое из предыдущего index.html] -->
-    <header class="header">
-        <nav class="nav">
-            <div class="logo">🐾  ZooHelper Волгоград</div>
-            <div class="nav-links">
-                <a href="#services">Услуги</a>
-                <a href="#kabinet">Кабинет</a>
-                <a href="#" id="cart-btn">🛒  <span id="cart-count">0</span></a>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <a href="#" onclick="showSection('catalog')">🏠 Каталог</a>
+        <a href="#" onclick="showSection('cart')">🛒 Корзина (<span id="cartCount">0</span>)</a>
+        <a href="#" onclick="showSection('cabinet')">👤 Кабинет</a>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Zoohelper34</h1>
+            <p>Зоотовары и услуги для ваших любимцев в Волгограде</p>
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Поиск кормов, наполнителей...">
+                <button onclick="searchProducts()">🔍 Найти</button>
             </div>
-        </nav>
+        </div>
     </header>
-    
-    <main class="container">
-    <!-- ХИТЫ ПРОДАЖ (компактно, 4 товара) -->
-    <section class="products">
-        <h2>🔥  Топ продаж</h2>
-        <div class="products-grid">
-            <div class="product-card" data-id="1" data-name="Силикатный наполнитель 5л" data-price="850">
-                <img src="https://via.placeholder.com/280x180/87CEEB/FFFFFF?text=Силикатный" alt="Наполнитель">
-                <h3>Силикатный наполнитель 5л</h3>
-                <div class="price">850 ₽</div>
-                <button class="buy-btn">В корзину</button>
-            </div>
-            <div class="product-card" data-id="2" data-name="Brit Premium Cat 3кг" data-price="2490">
-                <img src="https://via.placeholder.com/280x180/4CAF50/FFFFFF?text=Brit+Premium" alt="Brit">
-                <h3>Brit Premium Adult Cat 3кг</h3>
-                <div class="price">2 490 ₽</div>
-                <button class="buy-btn">В корзину</button>
-            </div>
-            <div class="product-card" data-id="3" data-name="Витамины 8in1 паста" data-price="1200">
-                <img src="https://via.placeholder.com/280x180/FF6B35/FFFFFF?text=Витамины+8in1" alt="Витамины">
-                <h3>Витамины 8in1 (шерсть)</h3>
-                <div class="price">1 200 ₽</div>
-                <button class="buy-btn">В корзину</button>
-            </div>
-            <div class="product-card" data-id="4" data-name="Наполнитель кукурузный 7л" data-price="1290">
-                <img src="https://via.placeholder.com/280x180/8BC34A/FFFFFF?text=Кукурузный" alt="Кукурузный">
-                <h3>Кукурузный наполнитель 7л</h3>
-                <div class="price">1 290 ₽</div>
-                <button class="buy-btn">В корзину</button>
-            </div>
+
+    <!-- Catalog Section -->
+    <section class="catalog" id="catalog">
+        <h2>Топ-13 товаров 4Partners</h2>
+        <div class="products-grid" id="productsGrid">
+            <p>Загрузка...</p>
         </div>
     </section>
 
-    <!-- 📂  КАТАЛОГ ПО ГРУППАМ -->
-    <section class="catalog">
-        <h2>🛒  Полный каталог</h2>
-        
-        <!-- Кнопки категорий -->
-        <div class="category-tabs">
-            <button class="tab-btn active" data-category="all">Все</button>
-            <button class="tab-btn" data-category="filler">Наполнители</button>
-            <button class="tab-btn" data-category="food">Корма</button>
-            <button class="tab-btn" data-category="vitamins">Витамины</button>
-            <button class="tab-btn" data-category="toys">Игрушки</button>
-        </div>
-
-        <!-- Товары по категориям (12 товаров) -->
-        <div class="catalog-grid" id="catalog-grid">
-            <!-- Наполнители -->
-            <div class="product-card small" data-category="filler" data-id="f1" data-name="Силикат белый 5л" data-price="850">
-                <img src="https://via.placeholder.com/250x150/87CEEB/FFFFFF?text=Силикат" alt="Силикат">
-                <h4>Силикат белый 5л</h4>
-                <div class="price-small">850 ₽</div>
-                <button class="buy-btn small">Купить</button>
-            </div>
-            <div class="product-card small" data-category="filler" data-id="f2" data-name="Бентонит голубой 6л" data-price="950">
-                <img src="https://via.placeholder.com/250x150/2196F3/FFFFFF?text=Бентонит" alt="Бентонит">
-                <h4>Бентонит голубой 6л</h4>
-                <div class="price-small">950 ₽</div>
-                <button class="buy-btn small">Купить</button>
-            </div>
-            <div class="product-card small" data-category="filler" data-id="f3" data-name="Кукурузный 7л" data-price="1290">
-                <img src="https://via.placeholder.com/250x150/8BC34A/FFFFFF?text=Кукурузный" alt="Кукуруза">
-                <h4>Кукурузный 7л</h4>
-                <div class="price-small">1 290 ₽</div>
-                <button class="buy-btn small">Купить</button>
-            </div>
-
-            <!-- Корма -->
-            <div class="product-card small" data-category="food" data-id="c1" data-name="Brit Premium Cat 3кг" data-price="2490">
-                <img src="https://via.placeholder.com/250x150/4CAF50/FFFFFF?text=Brit+Cat" alt="Brit">
-<h4>Brit Premium Cat 3кг</h4>
-                <div class="price-small">2 490 ₽</div>
-                <button class="buy-btn small">Купить</button>
-            </div>
-            <div class="product-card small" data-category="food" data-id="c2" data-name="Royal Canin Urinary 2кг" data-price="1890">
-                <img src="https://via.placeholder.com/250x150/FF5722/FFFFFF?text=Royal+Canin" alt="Royal Canin">
-                <h4>Royal Urinary 2кг</h4>
-                <div class="price-small">1 890 ₽</div>
-                <button class="buy-btn small">Купить</button>
-            </div>
-            <div class="product-card small" data-category="food" data-id="c3" data-name="ProPlan Sensitive 1.5кг" data-price="1390">
-                <img src="https://via.placeholder.com/250x150/9C27B0/FFFFFF?text=ProPlan" alt="ProPlan">
-                <h4>ProPlan Sensitive 1.5кг</h4>
-                <div class="price-small">1 390 ₽</div>
-                <button class="buy-btn small">Купить</button>
-            </div>
-
-            <!-- Витамины -->
-            <div class="product-card small" data-category="vitamins" data-id="v1" data-name="8in1 паста шерсть" data-price="1200">
-                <img src="https://via.placeholder.com/250x150/FF6B35/FFFFFF?text=8in1+паста" alt="8in1">
-                <h4>8in1 паста (шерсть)</h4>
-                <div class="price-small">1 200 ₽</div>
-                <button class="buy-btn small">Купить</button>
-            </div>
-            <div class="product-card small" data-category="vitamins" data-id="v2" data-name="Кальций+Глюкозамин" data-price="890">
-                <img src="https://via.placeholder.com/250x150/FFC107/FFFFFF?text=Кальций" alt="Кальций">
-                <h4>Кальций+Глюкозамин</h4>
-                <div class="price-small">890 ₽</div>
-                <button class="buy-btn small">Купить</button>
-            </div>
-
-            <!-- Игрушки -->
-            <div class="product-card small" data-category="toys" data-id="t1" data-name="Мышь с катнипом" data-price="350">
-                <img src="https://via.placeholder.com/250x150/E91E63/FFFFFF?text=Мышь" alt="Мышь">
-                <h4>Мышь с катнипом</h4>
-                <div class="price-small">350 ₽</div>
-                <button class="buy-btn small">Купить</button>
-            </div>
-            <div class="product-card small" data-category="toys" data-id="t2" data-name="Лазерная указка" data-price="450">
-                <img src="https://via.placeholder.com/250x150/F44336/FFFFFF?text=Лазер" alt="Лазер">
-                <h4>Лазерная указка</h4>
-                <div class="price-small">450 ₽</div>
-                <button class="buy-btn small">Купить</button>
-            </div>
+    <!-- Cart Section -->
+    <section id="cart" class="page-section cart-section">
+        <h2>🛒 Корзина</h2>
+        <div id="cartItems"></div>
+        <div class="cart-total">
+            <strong>Итого: <span id="totalPrice">0</span>₽</strong>
+            <button onclick="checkout()">💳 Оформить (ЮKassa)</button>
         </div>
     </section>
-</main>
 
-    <!-- Корзина и тост остаются как в прошлом блоке -->
-    <div id="cart-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Корзина (<span id="modal-count">0</span>)</h2>
-
-<div id="cart-items"></div>
-            <div class="total">Итого: <span id="total-price">0</span> ₽</div>
-            <button id="checkout" class="checkout-btn">Оформить заказ (ЮKassa)</button>
+    <!-- Cabinet Section -->
+    <section id="cabinet" class="page-section cabinet">
+        <h2>👤 Личный кабинет</h2>
+        <div class="profile">
+            <h3>Профиль</h3>
+            <input id="userName" placeholder="Имя">
+            <input id="userPhone" placeholder="Телефон">
+            <input id="userEmail" placeholder="Email">
+            <button onclick="saveProfile()">💾 Сохранить</button>
         </div>
-    </div>
-    <div id="toast" class="toast"></div>
+        <div class="orders">
+            <h3>📋 История заказов</h3>
+            <div id="ordersList"></div>
+        </div>
+    </section>
 
-    <script src="script.js"></script>
+    <!-- Toast Notification -->
+    <div id="toast"></div>
+
+    <script src="js/app.js"></script>
 </body>
 </html>
