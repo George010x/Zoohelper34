@@ -5,22 +5,23 @@
 ========================================= */
 
 // Global State Management
-const STATE = {
-    products: [
-        { id: 1, name: 'Bach Rescue Remedy Pet 10мл', price: 1200, img: 'https://via.placeholder.com/280x220/87CEEB/fff?text=Bach+Pet', desc: 'Антистресс для питомцев' },
-        { id: 2, name: 'Gelacan Darling', price: 950, img: 'https://via.placeholder.com/280x220/90EE90/000?text=Gelacan', desc: 'Жевательная паста' },
-        { id: 3, name: 'TIAKI Slow Feeder Mandala', price: 1800, img: 'https://via.placeholder.com/280x220/FF6B6B/fff?text=TIAKI', desc: 'Медленный фидер' },
-        { id: 4, name: 'Zesty Paws Healthy Aging', price: 2200, img: 'https://via.placeholder.com/280x220/4ECDC4/000?text=Zesty', desc: 'Для пожилых собак' },
-        { id: 5, name: 'Eheim Substrat Pro 720г', price: 1100, img: 'https://via.placeholder.com/280x220/45B7D1/fff?text=Eheim', desc: 'Биофильтр аквариум' },
-        { id: 6, name: 'ZARAHOME Pet Bowl Stand', price: 1400, img: 'https://via.placeholder.com/280x220/96CEB4/000?text=ZARAHOME', desc: 'Миска с подставкой' },
-        { id: 7, name: 'Rojeco Интерактивный мяч', price: 750, img: 'https://via.placeholder.com/280x220/FECA57/000?text=Rojeco', desc: 'Для кошек' },
-        { id: 8, name: 'DERMOSCENT Крем для кожи', price: 1600, img: 'https://via.placeholder.com/280x220/FF9FF3/fff?text=DermCream', desc: 'Уход за кожей' },
-        { id: 9, name: 'DERMOSCENT Pyoclean', price: 1300, img: 'https://via.placeholder.com/280x220/54A0FF/fff?text=Pyoclean', desc: 'Очиститель ушей' },
-        { id: 10, name: 'Trixie Пальто для собак', price: 1900, img: 'https://via.placeholder.com/280x220/5F27CD/fff?text=Trixie+Coat', desc: 'Тёплая куртка' },
-        { id: 11, name: 'Inodorina Песок 6L', price: 1000, img: 'https://via.placeholder.com/280x220/00D2D3/fff?text=Inodorina', desc: 'Без запаха' },
-        { id: 12, name: 'Pro Plan Пробиотик кошки', price: 1700, img: 'https://via.placeholder.com/280x220/FF9F43/fff?text=ProPlan', desc: 'Поддержка ЖКТ' },
-        { id: 13, name: 'Ruffwear Харнес', price: 3500, img: 'https://via.placeholder.com/280x220/C44569/fff?text=Ruffwear', desc: 'Универсальный' }
-    ],
+// 🔥 РЕАЛЬНЫЕ ФОТО из /img/ (TinyPNG качество)
+STATE.products = [
+    { id: 1,  name: 'Bach Rescue Remedy Pet 10мл',  price: 1200, img: 'img/bach-rescue.webp',        desc: 'Антистресс пипетка 10мл' },
+    { id: 2,  name: 'Gelacan Darling',              price: 950,  img: 'img/gelacan-darling.webp',   desc: 'Жевательная паста' },
+    { id: 3,  name: 'TIAKI Silikon Slow Feeder',    price: 1800, img: 'img/tiaki-mandala.webp',    desc: 'Мандала медленный фидер' },
+    { id: 4,  name: 'Zesty Paws Healthy Aging 60г', price: 2200, img: 'img/zesty-paws.webp',       desc: 'NAD+ для пожилых собак' },
+    { id: 5,  name: 'Eheim Substrat Pro 720г',      price: 1100, img: 'img/eheim-substrat.webp',   desc: 'Биофильтр аквариум' },
+    { id: 6,  name: 'ZARAHOME Pet Bowl Stand',      price: 1400, img: 'img/zarahome-bowl.webp',    desc: 'Миска с подставкой' },
+    { id: 7,  name: 'Rojeco Интерактивный мяч',     price: 750,  img: 'img/rojeco-ball.webp',      desc: 'Игрушка для кошек' },
+    { id: 8,  name: 'DERMOSCENT Крем для кожи',     price: 1600, img: 'img/dermescent-cream.webp', desc: 'Уход за кожей собак' },
+    { id: 9,  name: 'DERMOSCENT Pyoclean',          price: 1300, img: 'img/pyoclean.webp',         desc: 'Очиститель ушей' },
+    { id: 10, name: 'Trixie Пальто для собак',      price: 1900, img: 'img/trixie-coat.webp',      desc: 'Тёплая куртка' },
+    { id: 11, name: 'Inodorina Песок 6L',           price: 1000, img: 'img/inodorina-sand.webp',   desc: 'Без запаха для кошек' },
+    { id: 12, name: 'Pro Plan Пробиотик кошки',     price: 1700, img: 'img/proplan-probiotic.webp',desc: 'Поддержка пищеварения' },
+    { id: 13, name: 'Ruffwear Харнес',              price: 3500, img: 'img/ruffwear-harness.webp', desc: 'Универсальный для собак' }
+];
+
     cart: JSON.parse(localStorage.getItem('cart')) || [],
     user: JSON.parse(localStorage.getItem('user')) || { name: '', phone: '', email: '' },
     orders: JSON.parse(localStorage.getItem('orders')) || []
